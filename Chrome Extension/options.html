@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ClipSentinel Settings</title>
+  <style>
+    body{margin:0;background:#0f0f12;color:#fff;font-family:system-ui}
+    .wrap{max-width:860px;margin:0 auto;padding:22px}
+    h1{margin:0 0 6px 0;font-size:22px}
+    .muted{opacity:.75;font-size:13px;line-height:1.4}
+    .card{margin-top:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);border-radius:16px;padding:16px}
+    label{display:block;margin-top:12px;font-size:12px;opacity:.85}
+    input,select{width:100%;margin-top:6px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.06);color:#fff;outline:none;box-sizing:border-box}
+    .row{display:flex;gap:10px;margin-top:12px}
+    .row>*{flex:1}
+    button{padding:10px 12px;border-radius:10px;border:0;background:#2b7cff;color:#fff;font-weight:800;cursor:pointer}
+    button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff}
+    button.danger{background:#7f1d1d;border:1px solid #ef4444;color:#fca5a5}
+    .err{margin-top:10px;color:#ffb4b4;font-size:12px;display:none}
+    .ok{margin-top:10px;color:#b7ffb7;font-size:12px;display:none}
+    .hidden{display:none}
+    code{background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:8px}
+    .topline{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .pill{font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12)}
+    .section-title{margin-top:20px;font-size:14px;font-weight:700;opacity:1;display:block}
+    .rules-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+    .rules-table th{text-align:left;padding:8px 10px;opacity:.6;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.08)}
+    .rules-table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.05)}
+    .rules-table tr:last-child td{border-bottom:none}
+    .toggle{display:flex;align-items:center;gap:6px;cursor:pointer}
+    .toggle input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:#2b7cff}
+    .badge-copy{color:#fb923c;font-size:11px;font-weight:700}
+    .badge-paste{color:#4ade80;font-size:11px;font-weight:700}
+    .badge-stealth{color:#a78bfa;font-size:11px;font-weight:700}
+    .badge-upload{color:#f87171;font-size:11px;font-weight:700}
+    .steps-hint{font-size:11px;opacity:.5;margin-top:4px}
+    .inline-row{display:flex;gap:10px;align-items:flex-end;margin-top:10px}
+    .inline-row input{flex:1;margin-top:0}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topline">
+    <div>
+      <h1>ClipSentinel Settings</h1>
+      <div class="muted" id="subtitleHint"></div>
+    </div>
+    <div class="pill" id="statePill"></div>
+  </div>
+
+  <!-- Password -->
+  <div class="card">
+    <label id="lblAdminPw"></label>
+    <input id="adminPw" type="password" placeholder="••••••••" />
+    <div class="row">
+      <button id="unlockBtn"></button>
+      <button id="lockBtn" class="secondary hidden"></button>
+    </div>
+    <div id="unlockErr" class="err"></div>
+    <div id="unlockOk"  class="ok"></div>
+  </div>
+
+  <!-- Settings -->
+  <div id="settingsCard" class="card hidden">
+
+    <!-- General -->
+    <label id="lblBackendUrl"></label>
+    <input id="backendUrl" type="text" />
+    <div class="row">
+      <div>
+        <label id="lblLanguage"></label>
+        <select id="language">
+          <option value="TR">TR — Türkçe</option>
+          <option value="EN">EN — English</option>
+          <option value="DE">DE — Deutsch</option>
+        </select>
+      </div>
+      <div>
+        <label id="lblDailyLimit"></label>
+        <input id="dailyLimit" type="number" />
+      </div>
+    </div>
+
+    <!-- Site Rules -->
+    <label class="section-title" id="lblSiteRules"></label>
+    <div class="inline-row">
+      <input id="newSiteHostname" type="text" />
+      <button id="addSiteBtn"></button>
+    </div>
+    <table class="rules-table">
+      <thead>
+        <tr>
+          <th id="thSite"></th>
+          <th><span class="badge-copy">COPY</span></th>
+          <th><span class="badge-paste">PASTE</span></th>
+          <th><span class="badge-stealth">STEALTH</span></th>
+          <th><span class="badge-upload">UPLOAD</span></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="rulesBody"></tbody>
+    </table>
+
+    <!-- Copy Throttle -->
+    <label class="section-title" id="lblCopyThrottle"></label>
+    <div class="row">
+      <div>
+        <label id="lblCopyThreshold"></label>
+        <input id="copyThreshold" type="number" min="1" />
+      </div>
+      <div>
+        <label id="lblCounterReset"></label>
+        <input id="counterResetMinutes" type="number" min="1" />
+      </div>
+    </div>
+    <label id="lblBlockSteps"></label>
+    <input id="blockSteps" type="text" placeholder="1, 5, 10, 30, 60, 480, -1" />
+    <div class="steps-hint" id="hintBlockSteps"></div>
+
+    <!-- Unblock -->
+    <label class="section-title" id="lblUnblockTitle"></label>
+    <div class="inline-row">
+      <input id="unblockHostname" type="text" />
+      <button id="unblockBtn" class="danger"></button>
+    </div>
+
+    <!-- Save -->
+    <div class="row" style="margin-top:20px">
+      <button id="saveBtn"></button>
+      <button id="resetTokensBtn" class="secondary"></button>
+    </div>
+    <div id="formErr" class="err"></div>
+    <div id="formOk"  class="ok"></div>
+
+  </div>
+</div>
+<script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ClipSentinel</title>
+  <style>
+    body { margin:0; padding:14px; width:340px; background:#111; color:#fff; font-family:system-ui; }
+    .title { font-weight:800; font-size:16px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; }
+    .label { font-size:12px; opacity:.8; margin-top:10px; }
+    .box { margin-top:4px; padding:10px; border-radius:10px; background:#1a1a1a; font-size:12px; word-break:break-all; }
+    select { width:100%; margin-top:6px; padding:8px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333; }
+    button { width:100%; margin-top:12px; padding:10px 12px; border-radius:10px; border:0; background:#2b7cff; color:#fff; font-weight:800; cursor:pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="title">
+    <div>ClipSentinel</div>
+    <div id="langTag">TR</div>
+  </div>
+
+  <div class="label" id="destLabel">Hedef Adres</div>
+  <div class="box" id="backendBox">-</div>
+
+  <div class="label" id="langLabel">Dil</div>
+  <select id="langSelect">
+    <option value="TR">Türkçe</option>
+    <option value="EN">English</option>
+    <option value="DE">Deutsch</option>
+  </select>
+
+  <button id="openSettingsBtn">Ayarlar</button>
+
+  <script src="popup.js"></script>
+</body>
+</html>
